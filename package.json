@@ -1,0 +1,22 @@
+{
+  "name": "namaste-react",
+  "version": "1.0.0",
+  "description": "Learning React from Namaste React Course By Akshay Saini",
+  "main": "App.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sarjeetsingh037/Namaste-React.git"
+  },
+  "keywords": [
+    "React"
+  ],
+  "author": "Sarjeet Singh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sarjeetsingh037/Namaste-React/issues"
+  },
+  "homepage": "https://github.com/sarjeetsingh037/Namaste-React#readme"
+}
