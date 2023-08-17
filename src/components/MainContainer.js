@@ -4,12 +4,35 @@ import restaurentData from "../utils/mockData";
 
 const MainContianer = () => {
     
-    const [restaurantList, setRestaurantList] = useState(restaurentData);
+    const [restaurantList, setRestaurantList] = useState([]);
+    const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+
+    const [searchText, setSearchText] = useState("");
+
+
+
+    useEffect(()=> {
+      fetchData();
+    },[]);
+
+    const fetchData = async()=> {
+      const data = await fetch("https://www.swiggy.com/mapi/homepage/getCards?lat=28.7040592&lng=77.10249019999999");
+      const json = await data.json();
+      console.log(json.data.success.cards[4].gridWidget.gridElements.infoWithStyle.restaurants);
+      setRestaurantList(json?.data?.success?.cards[4]?.gridWidget?.gridElements?.infoWithStyle?.restaurants);
+      setFilteredRestaurants(json?.data?.success?.cards[4]?.gridWidget?.gridElements?.infoWithStyle?.restaurants);
+    }
     
-    return (
+    return restaurantList?.length === 0? <p>Loading....</p>:(
       <div className="main-container">
-      {console.log("render called")}
         <div className="filter">
+          <div className="search">
+            <input type="text" value={searchText} onChange={(e)=> setSearchText(e.target.value)} />
+            <button onClick={()=> {
+              const filteredResData = restaurantList.filter(res=> res?.info?.name.toLowerCase().includes(searchText.toLowerCase()));
+              setFilteredRestaurants(filteredResData);
+            }}>Search</button>
+          </div>
             <button onClick={()=> {
                 let filteredData = restaurantList.filter(item=> item?.info?.avgRating > 4.2);
                 setRestaurantList(filteredData)
@@ -18,7 +41,7 @@ const MainContianer = () => {
         <div className="restaurant-container">
 
         {
-            restaurantList.map(resItem => {
+            filteredRestaurants.map(resItem => {
                 return <RestaurantCard resData= {resItem} key={resItem.info.id} />
             })
         }

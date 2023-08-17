@@ -1,7 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Header from './components/Header';
+import Header from "./components/Header";
 import MainContianer from "./components/MainContainer";
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import About from "./components/About";
+import Contact from "./components/Contact";
+import RestaurantMenu from "./components/RestaurantMenu";
 
 // const heading = React.createElement("h1", {id:"heading"}, "Hello World from React");
 // console.log(heading);
@@ -33,12 +37,7 @@ import MainContianer from "./components/MainContainer";
 
 // console.log(Heading());
 
-
-
-
 //Restaurant Card
-
-
 
 //Restaurant Menu or Container
 
@@ -46,11 +45,36 @@ const AppLayout = () => {
   return (
     <div className="app">
       <Header />
-      <MainContianer />
+      <Outlet />
     </div>
   );
 };
 
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <AppLayout />,
+    children: [
+      {
+        path: "/",
+        element: <MainContianer />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
+      },
+      {
+        path:"/restaurants/:resId",
+        element:<RestaurantMenu />
+      }
+    ],
+    errorElement: <Error />,
+  },
+]);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-root.render(<AppLayout />);
+root.render(<RouterProvider router={appRouter} />);
