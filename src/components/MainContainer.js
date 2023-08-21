@@ -1,8 +1,11 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import RestaurantCard from "./RestaurantCard";
 import restaurentData from "../utils/mockData";
+import useOnlineStatus from "../utils/useOnlineStatus";
+
 
 const MainContianer = () => {
+  const onlineStatus = useOnlineStatus();
     
     const [restaurantList, setRestaurantList] = useState([]);
     const [filteredRestaurants, setFilteredRestaurants] = useState([]);
@@ -23,6 +26,10 @@ const MainContianer = () => {
       setFilteredRestaurants(json?.data?.success?.cards[4]?.gridWidget?.gridElements?.infoWithStyle?.restaurants);
     }
     
+    
+    if(!onlineStatus) {
+      return <h1>You're Offline, Please check your internet connection...</h1>
+    }
     return restaurantList?.length === 0? <p>Loading....</p>:(
       <div className="main-container">
         <div className="filter">
